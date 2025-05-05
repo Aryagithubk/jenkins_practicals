@@ -1,0 +1,38 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Run Scripts in Parallel') {
+            parallel {
+                stage('Script 1') {
+                    steps {
+                        sh 'chmod +x script1.sh && ./script1.sh'
+                    }
+                }
+                stage('Script 2') {
+                    steps {
+                        sh 'chmod +x script2.sh && ./script2.sh'
+                    }
+                }
+            }
+        }
+
+        stage('Print Working Directory Content') {
+            steps {
+                sh 'pwd'
+                sh 'ls -l'
+            }
+        }
+
+        stage('Print Env Variables') {
+            environment {
+                NAME = 'Docker'
+                COURSE = 'DevOps'
+            }
+            steps {
+                sh 'echo "Name: $NAME"'
+                sh 'echo "Course: $COURSE"'
+            }
+        }
+    }
+}

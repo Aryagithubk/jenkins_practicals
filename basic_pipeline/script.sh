@@ -1,0 +1,1 @@
+echo "running script.sh for basic_pipeline"

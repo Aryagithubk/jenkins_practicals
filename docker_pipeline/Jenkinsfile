@@ -1,0 +1,36 @@
+pipeline {
+    agent any
+
+    environment {
+        NAME = 'Docker'
+        COURSE = 'DevOps'
+    }
+
+    stages {
+        stage('Clone GitHub Repo') {
+            steps {
+                git branch: 'main', url: 'https://github.com/your-username/your-repo.git'
+            }
+        }
+
+        stage('Run Shell Script') {
+            steps {
+                sh 'chmod +x script.sh && ./script.sh'
+            }
+        }
+
+        stage('Print Working Directory Content') {
+            steps {
+                sh 'pwd'
+                sh 'ls -l'
+            }
+        }
+
+        stage('Print Env Variables') {
+            steps {
+                sh 'echo "Name: $NAME"'
+                sh 'echo "Course: $COURSE"'
+            }
+        }
+    }
+}
