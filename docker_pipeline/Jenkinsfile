@@ -1,35 +1,22 @@
 pipeline {
     agent any
 
-    environment {
-        NAME = 'Docker'
-        COURSE = 'DevOps'
-    }
-
     stages {
-        stage('Clone GitHub Repo') {
+        stage('Pull Docker Image') {
             steps {
-                git branch: 'main', url: 'https://github.com/your-username/your-repo.git'
+                sh 'docker pull nginx'
             }
         }
 
-        stage('Run Shell Script') {
+        stage('Run Docker Container') {
             steps {
-                sh 'chmod +x script.sh && ./script.sh'
+                sh 'docker run -d --name mynginx -p 8080:80 nginx'
             }
         }
 
-        stage('Print Working Directory Content') {
+        stage('Check Running Containers') {
             steps {
-                sh 'pwd'
-                sh 'ls -l'
-            }
-        }
-
-        stage('Print Env Variables') {
-            steps {
-                sh 'echo "Name: $NAME"'
-                sh 'echo "Course: $COURSE"'
+                sh 'docker ps'
             }
         }
     }
